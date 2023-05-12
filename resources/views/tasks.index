@@ -1,0 +1,31 @@
+
+public function index()
+{
+    $tasks = Task::where('user_id', auth()->user()->id)->get();
+
+    return view('tasks.index', compact('tasks'));
+}
+
+@foreach ($tasks as $task)
+    <div>
+        <h3>{{ $task->type }}</h3>
+        <p>{{ $task->content }}</p>
+
+        @if ($task->type === 'explanation' && !$task->is_solved)
+            <form method="POST" action="{{ route('tasks.solve', $task->id) }}">
+                @csrf
+
+                <div>
+                    <label for="solution">Solution:</label>
+                    <textarea name="solution" id="solution" required></textarea>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        @elseif ($task->type === 'exercise' && !$task->is_decomposed)
+            // Form for decomposing exercise task
+        @elseif ($task->type === 'microtask' && !$task->is_solved)
+            // Form for solving microtask
+        @endif
+    </div>
+@endforeach

@@ -173,4 +173,30 @@ class TaskController extends Controller
             }
         }
     }
+
+public function solve(Request $request, $id)
+{
+    $task = Task::findOrFail($id);
+
+    if ($task->type === 'explanation') {
+        // Solve the explanation task
+        $solution = $this->solveExplanationTask($request->input('solution'));
+
+        // Update the task as solved and add the solution
+        $task->is_solved = true;
+        $task->content = $solution;
+        $task->save();
+    } elseif ($task->type === 'microtask') {
+        // Solve the microtask
+        $solution = $this->solveMicrotask($task->content);
+
+        // Update the task as solved and add the solution
+        $task->is_solved = true;
+        $task->content = $solution;
+        $task->save();
+    }
+
+    return redirect()->route('tasks.index');
+}
+
 }

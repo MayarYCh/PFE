@@ -18,11 +18,11 @@ class CreateMicrotasksTable extends Migration
             $table->string('body');
             $table->string('response')->nullable();
             $table->unsignedBigInteger('task_id');
-            $table->foreign('task_id')->references('id')->on('tasks');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->unsignedBigInteger('worker_id')->nullable();
-            $table->foreign('worker_id')->references('id')->on('workers');
+            $table->foreign('worker_id')->references('id')->on('workers')->onDelete('set null');
             $table->date('assignment_date')->nullable();
-            $table->integer('duration')->nullable();
+            $table->time('duration')->nullable();
             $table->timestamps();
         });
     }
