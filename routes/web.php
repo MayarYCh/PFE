@@ -20,6 +20,5 @@ Route::get('/', function () {
 
 Route::get('/tasks', 'TaskController@index')->name('tasks.index');
 Route::post('/tasks/{id}/solve', 'TaskController@solve')->name('tasks.solve');
-Route::post('/microtasks/response', [MicrotaskController::class, 'storeResponse'])->name('microtasks.storeResponse');
 
 
